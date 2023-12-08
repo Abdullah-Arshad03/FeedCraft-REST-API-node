@@ -1,0 +1,145 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\abdul\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.2.5
+2 info using node@v18.18.2
+3 timing npm:load:whichnode Completed in 2ms
+4 timing config:load:defaults Completed in 3ms
+5 timing config:load:file:C:\Users\abdul\AppData\Roaming\npm\node_modules\npm\npmrc Completed in 6ms
+6 timing config:load:builtin Completed in 6ms
+7 timing config:load:cli Completed in 1ms
+8 timing config:load:env Completed in 0ms
+9 timing config:load:file:D:\backend\PROJECTS\Building First REST API\.npmrc Completed in 1ms
+10 timing config:load:project Completed in 2ms
+11 timing config:load:file:C:\Users\abdul\.npmrc Completed in 1ms
+12 timing config:load:user Completed in 1ms
+13 timing config:load:file:C:\Users\abdul\AppData\Roaming\npm\etc\npmrc Completed in 0ms
+14 timing config:load:global Completed in 1ms
+15 timing config:load:setEnvs Completed in 1ms
+16 timing config:load Completed in 16ms
+17 timing npm:load:configload Completed in 16ms
+18 timing config:load:flatten Completed in 3ms
+19 timing npm:load:mkdirpcache Completed in 1ms
+20 timing npm:load:mkdirplogs Completed in 0ms
+21 verbose title npm init
+22 verbose argv "init"
+23 timing npm:load:setTitle Completed in 1ms
+24 timing npm:load:display Completed in 1ms
+25 verbose logfile logs-max:10 dir:D:\backend\PROJECTS\Building First REST API\.npm\_logs\2023-12-08T06_46_58_938Z-
+26 verbose logfile D:\backend\PROJECTS\Building First REST API\.npm\_logs\2023-12-08T06_46_58_938Z-debug-0.log
+27 timing npm:load:logFile Completed in 14ms
+28 timing npm:load:timers Completed in 0ms
+29 timing npm:load:configScope Completed in 0ms
+30 timing npm:load Completed in 73ms
+31 silly logfile done cleaning log files
+32 silly package data {
+32 silly package data   name: 'blog-rest-api',
+32 silly package data   version: '1.0.0',
+32 silly package data   description: 'RESTful Api Developed by Abdullah.',
+32 silly package data   main: 'index.js',
+32 silly package data   scripts: {
+32 silly package data     test: 'echo "Error: no test specified" && exit 1',
+32 silly package data     start: 'nodemon app.js'
+32 silly package data   },
+32 silly package data   author: 'Abdullah Bin Arshad',
+32 silly package data   license: 'ISC',
+32 silly package data   dependencies: {
+32 silly package data     abbrev: '^1.1.1',
+32 silly package data     accepts: '^1.3.8',
+32 silly package data     anymatch: '^3.1.3',
+32 silly package data     'array-flatten': '^1.1.1',
+32 silly package data     'balanced-match': '^1.0.2',
+32 silly package data     'binary-extensions': '^2.2.0',
+32 silly package data     'body-parser': '^1.20.2',
+32 silly package data     'brace-expansion': '^1.1.11',
+32 silly package data     braces: '^3.0.2',
+32 silly package data     bytes: '^3.1.2',
+32 silly package data     'call-bind': '^1.0.5',
+32 silly package data     chokidar: '^3.5.3',
+32 silly package data     'concat-map': '^0.0.1',
+32 silly package data     'content-disposition': '^0.5.4',
+32 silly package data     'content-type': '^1.0.5',
+32 silly package data     cookie: '^0.5.0',
+32 silly package data     'cookie-signature': '^1.0.6',
+32 silly package data     debug: '^4.3.4',
+32 silly package data     'define-data-property': '^1.1.1',
+32 silly package data     depd: '^2.0.0',
+32 silly package data     destroy: '^1.2.0',
+32 silly package data     'ee-first': '^1.1.1',
+32 silly package data     encodeurl: '^1.0.2',
+32 silly package data     'escape-html': '^1.0.3',
+32 silly package data     etag: '^1.8.1',
+32 silly package data     express: '^4.18.2',
+32 silly package data     'fill-range': '^7.0.1',
+32 silly package data     finalhandler: '^1.2.0',
+32 silly package data     forwarded: '^0.2.0',
+32 silly package data     fresh: '^0.5.2',
+32 silly package data     'function-bind': '^1.1.2',
+32 silly package data     'get-intrinsic': '^1.2.2',
+32 silly package data     'glob-parent': '^5.1.2',
+32 silly package data     gopd: '^1.0.1',
+32 silly package data     'has-flag': '^3.0.0',
+32 silly package data     'has-property-descriptors': '^1.0.1',
+32 silly package data     'has-proto': '^1.0.1',
+32 silly package data     'has-symbols': '^1.0.3',
+32 silly package data     hasown: '^2.0.0',
+32 silly package data     'http-errors': '^2.0.0',
+32 silly package data     'iconv-lite': '^0.4.24',
+32 silly package data     'ignore-by-default': '^1.0.1',
+32 silly package data     inherits: '^2.0.4',
+32 silly package data     'ipaddr.js': '^1.9.1',
+32 silly package data     'is-binary-path': '^2.1.0',
+32 silly package data     'is-extglob': '^2.1.1',
+32 silly package data     'is-glob': '^4.0.3',
+32 silly package data     'is-number': '^7.0.0',
+32 silly package data     'lru-cache': '^6.0.0',
+32 silly package data     'media-typer': '^0.3.0',
+32 silly package data     'merge-descriptors': '^1.0.1',
+32 silly package data     methods: '^1.1.2',
+32 silly package data     mime: '^1.6.0',
+32 silly package data     'mime-db': '^1.52.0',
+32 silly package data     'mime-types': '^2.1.35',
+32 silly package data     minimatch: '^3.1.2',
+32 silly package data     ms: '^2.1.2',
+32 silly package data     negotiator: '^0.6.3',
+32 silly package data     nodemon: '^3.0.2',
+32 silly package data     nopt: '^1.0.10',
+32 silly package data     'normalize-path': '^3.0.0',
+32 silly package data     'object-inspect': '^1.13.1',
+32 silly package data     'on-finished': '^2.4.1',
+32 silly package data     parseurl: '^1.3.3',
+32 silly package data     'path-to-regexp': '^0.1.7',
+32 silly package data     picomatch: '^2.3.1',
+32 silly package data     'proxy-addr': '^2.0.7',
+32 silly package data     'pstree.remy': '^1.1.8',
+32 silly package data     qs: '^6.11.0',
+32 silly package data     'range-parser': '^1.2.1',
+32 silly package data     'raw-body': '^2.5.2',
+32 silly package data     readdirp: '^3.6.0',
+32 silly package data     'safe-buffer': '^5.2.1',
+32 silly package data     'safer-buffer': '^2.1.2',
+32 silly package data     semver: '^7.5.4',
+32 silly package data     send: '^0.18.0',
+32 silly package data     'serve-static': '^1.15.0',
+32 silly package data     'set-function-length': '^1.1.1',
+32 silly package data     setprototypeof: '^1.2.0',
+32 silly package data     'side-channel': '^1.0.4',
+32 silly package data     'simple-update-notifier': '^2.0.0',
+32 silly package data     statuses: '^2.0.1',
+32 silly package data     'supports-color': '^5.5.0',
+32 silly package data     'to-regex-range': '^5.0.1',
+32 silly package data     toidentifier: '^1.0.1',
+32 silly package data     touch: '^3.1.0',
+32 silly package data     'type-is': '^1.6.18',
+32 silly package data     undefsafe: '^2.0.5',
+32 silly package data     unpipe: '^1.0.0',
+32 silly package data     'utils-merge': '^1.0.1',
+32 silly package data     vary: '^1.1.2',
+32 silly package data     yallist: '^4.0.0'
+32 silly package data   },
+32 silly package data   devDependencies: {},
+32 silly package data   [Symbol(newline)]: '\n',
+32 silly package data   [Symbol(indent)]: '  '
+32 silly package data }
+33 timing command:init Completed in 33935ms
+34 verbose exit 0
+35 timing npm Completed in 34446ms
+36 info ok
