@@ -28,7 +28,11 @@ exports.createPost = (req, res , next) =>{
         post : {
             id : new Date().toISOString(),
             title : title ,
-            content : content
+            content : content,
+            creator : {
+                name : 'Abdullah bin Arshad'
+            },
+            createdAt : new Date()
         }
 
     })
