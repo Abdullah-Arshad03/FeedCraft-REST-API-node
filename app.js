@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 
 const app  = express()
 const feedRoutes = require('./routes/feed')
@@ -17,7 +18,13 @@ app.use((req,res,next)=>{
 //GET /feed/posts
 app.use('/feed', feedRoutes)
 
+mongoose.connect('mongodb://127.0.0.1:27017/blogDb').then((connected)=>{
+    console.log('Mongoose Connected!')
+    app.listen(8080)
+}).catch((err)=>{
+    console.log(err)
+})
 
 
-app.listen(8080)
+
 

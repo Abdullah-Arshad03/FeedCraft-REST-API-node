@@ -1,6 +1,6 @@
 const {validationResult} = require('express-validator')
-const { valid } = require('semver')
 
+const Post = require('../models/post')
 
 
 exports.getPost = (req , res , next ) =>{
@@ -35,20 +35,19 @@ exports.createPost = (req, res , next) =>{
             errors : errors.array()
         })
     }
-
+   const post = new Post({
+       title : title ,
+       content : content,
+       imageUrl :'images/coffee',
+       creator : { name : 'Abdullah Bin Arshad 03'}
+   })
+   post.save().then((result)=>{
     res.status(201).json({
         message : 'Post created Successfully',
-        post : {
-            id : new Date().toISOString(),
-            title : title ,
-            content : content,
-            creator : {
-                name : 'Abdullah bin Arshad'
-            },
-            createdAt : new Date()
-        }
-
+        post : result
     })
+   }).catch(err =>{console.log(err)})
+    
 
 
 }
