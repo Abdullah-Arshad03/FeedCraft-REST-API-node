@@ -9,10 +9,10 @@ const bodyParser = require('body-parser')
 
 const fileStorage = multer.diskStorage({
     destination : (req, file , cb)=>{
-        cb(null , 'images')
+        cb(null , './images')
     },
     filename : (req,file,cb)=>{
-        cb(null , file.filename )
+        cb(null , file.originalname )
     }
 })
 
