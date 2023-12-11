@@ -37,10 +37,18 @@ exports.createPost = (req, res , next) =>{
         throw error
 
     }
+    if(!req.file){
+        const error = new Error('The image isnt added!')
+        error.statusCode = 422
+        throw error
+    }
+    const imageUrl = req.file.path
+
+
    const post = new Post({
        title : title ,
        content : content,
-       imageUrl :'images/coffee',
+       imageUrl : imageUrl,
        creator : { name : 'Abdullah Bin Arshad 03'}
    })
    post.save().then((result)=>{
