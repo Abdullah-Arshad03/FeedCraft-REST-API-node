@@ -20,5 +20,7 @@ router.put('/post/:postId', [
     check('content', 'content must contain atleast 5 characters!').trim().isLength({min : 5})
 ] , feedController.editPost)
 
+router.delete('/post/:postId', feedController.deletePost)
+
 
 module.exports = router

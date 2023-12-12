@@ -95,7 +95,7 @@ exports.getPost = (req,res,next)=>{
 
 }
 
-exports.editPost = () =>{
+exports.editPost = (req,res,next) =>{
     const postId = req.params.postId
     const errors = validationResult(req)
 
@@ -128,9 +128,9 @@ exports.editPost = () =>{
         post.title = title
         post.content = content
         post.imageUrl = imageUrl
-        return post.save()
-    }).then((result)=>{
-        res.status(200).json({message : 'post is updated successfully !', post : result})
+         post.save().then((result)=>{
+            res.status(200).json({message : 'post is updated successfully !', post : result})
+        })
     }).catch(err =>{
         next(err)
     })
@@ -140,6 +140,21 @@ exports.editPost = () =>{
 //creating a helper function now 
 
 const clearImage = (filepath) =>{
-     filepath = path.join(__dirname , '..' , filepath)
-     fs.unlink(filePath , err =>{console.log(err)})
+     let filepath = path.join(__dirname , '..' , filepath)
+     fs.unlink(filepath , err =>{console.log(err)})
+}
+
+exports.deletePost = ( req, res, next) => {
+    const postId = req.params.postId
+    Post.findById(postId).then((post)=>{
+        // here we check the logged in user.
+         if(!post){
+            const error = new Error('the post isnt found')
+            error.statusCode = 404
+            throw error
+         }
+         clearImage(post.imageUrl)
+          Post.findByIdAndDelete(postId).then(result =>{res.json({message :'post is deleted! successfully !'})})
+    }).catch(err=>{console.log(err)})
+
 }

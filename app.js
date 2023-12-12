@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const mongoose = require('mongoose')
 const path = require('path')
 const multer = require('multer')
@@ -6,6 +7,7 @@ const multer = require('multer')
 const app  = express()
 const feedRoutes = require('./routes/feed')
 const bodyParser = require('body-parser')
+
 
 const fileStorage = multer.diskStorage({
     destination : (req, file , cb)=>{
@@ -31,13 +33,18 @@ app.use(bodyParser.json())
 app.use(multer({storage :fileStorage   , fileFilter: fileFilter }).single('image'))
 app.use ('/images', express.static(path.join(__dirname , 'images')))
 
-app.use((req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET' , 'POST' , 'PUT' , 'PATCH' , 'DELETE')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type' , 'Authorization')
-    next()
-})
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        // Respond to OPTIONS requests with OK status
+        res.status(200)
+    } else {
+        next();
+    }
+});
 
 //GET /feed/posts
 app.use('/feed', feedRoutes)
