@@ -6,6 +6,7 @@ const multer = require('multer')
 
 const app  = express()
 const feedRoutes = require('./routes/feed')
+const authRoutes = require('./routes/auth')
 const bodyParser = require('body-parser')
 
 
@@ -46,16 +47,19 @@ app.use((req, res, next) => {
     }
 });
 
+app.use('/auth',authRoutes)
 //GET /feed/posts
 app.use('/feed', feedRoutes)
 
 app.use((error,req,res,next)=>{
     console.log(error)
     const status = error.statusCode || 500
-    const message = error.message
+    const message = error.message // this is default term in the error , the string we pass in the Error('')is treated as the error.message by default
+    const messages = error.messages
     res.status(status).json({
         message : message,
-        statusCode : status
+        statusCode : status,
+        messages : messages
     })
 })
 

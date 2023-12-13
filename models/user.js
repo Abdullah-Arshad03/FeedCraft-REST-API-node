@@ -1,5 +1,4 @@
-const { SchemaType } = require('mongoose')
-const mongoose = require('mongoose ')
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
@@ -16,7 +15,16 @@ const userSchema = new Schema({
     name : {
         type : String ,
         required :true
-    }
+    },
+    status : {
+        type : String,
+        // required : true
+        default : 'Im the new User !'
+    },
+    posts : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Post'
+    }]
 
 } , {
     timestamps : true
