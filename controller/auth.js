@@ -75,10 +75,10 @@ exports.signin = (req, res, next) => {
       );
 
       res.status(200).json({
-        message : 'your token is created !',
-        token : token,
-        userId : loadedUser._id.toString()
-      })
+        message: "your token is created !",
+        token: token,
+        userId: loadedUser._id.toString(),
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
