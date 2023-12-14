@@ -3,10 +3,12 @@ const fs = require("fs");
 const path = require("path");
 
 const Post = require("../models/post");
+const User = require("../models/user");
 
 exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
-  const perPage = 2; // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
+  const perPage = 2;
+  // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
 
   let totalItems;
 
@@ -46,6 +48,7 @@ exports.createPost = (req, res, next) => {
   const errors = validationResult(req);
   const title = req.body.title;
   const content = req.body.content;
+  let creator ;
 
   if (!errors.isEmpty()) {
     const error = new Error(errors.array()[0].msg);
@@ -65,15 +68,22 @@ exports.createPost = (req, res, next) => {
     title: title,
     content: content,
     imageUrl: imageUrl,
-
-    creator: { name: "Abdullah Bin Arshad 03" },
+    creator: req.userId,
   });
   post
     .save()
     .then((result) => {
+       return  User.findById(req.userId)
+    }).then((user)=>{
+      creator = user
+      user.posts.push(post)
+     return user.save()
+    })
+    .then((result)=>{
       res.status(201).json({
         message: "Post created Successfully",
-        post: result,
+        post: post,
+        creator : { _id : creator._id , name : creator.name}
       });
     })
     .catch((err) => {
