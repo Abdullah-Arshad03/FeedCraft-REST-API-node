@@ -48,7 +48,7 @@ exports.createPost = (req, res, next) => {
   const errors = validationResult(req);
   const title = req.body.title;
   const content = req.body.content;
-  let creator ;
+  let creator;
 
   if (!errors.isEmpty()) {
     const error = new Error(errors.array()[0].msg);
@@ -73,17 +73,18 @@ exports.createPost = (req, res, next) => {
   post
     .save()
     .then((result) => {
-       return  User.findById(req.userId)
-    }).then((user)=>{
-      creator = user
-      user.posts.push(post)
-     return user.save()
+      return User.findById(req.userId);
     })
-    .then((result)=>{
+    .then((user) => {
+      creator = user;
+      user.posts.push(post);
+      return user.save();
+    })
+    .then((result) => {
       res.status(201).json({
         message: "Post created Successfully",
         post: post,
-        creator : { _id : creator._id , name : creator.name}
+        creator: { _id: creator._id, name: creator.name },
       });
     })
     .catch((err) => {
@@ -144,6 +145,11 @@ exports.editPost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (post.creator.toString() !== req.userId) {
+        const error = new Error("Not Authorized!");
+        error.statusCode = 403; // code for the authorization
+        throw error;
+      }
       if (imageUrl != post.imageUrl) {
         clearImage(post.imageUrl);
       }
@@ -180,8 +186,22 @@ exports.deletePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (post.creator.toString() !== req.userId) {
+        const error = new Error("Not Authorized!");
+        error.statusCode = 403; // code for the authorization
+        throw error;
+      }
+
       clearImage(post.imageUrl);
-      Post.findByIdAndDelete(postId).then((result) => {
+      Post.findByIdAndDelete(postId)
+      .then((result) => {
+                return User.findById(req.userId)
+      
+      }).then((user)=>{
+        user.posts.pull(postId)
+        return user.save()
+        
+      }).then((result)=>{
         res.json({ message: "post is deleted! successfully !" });
       });
     })
