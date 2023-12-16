@@ -29,4 +29,6 @@ router.post(
 
 router.post('/signin', authController.signin)
 
+router.get('/status')
+
 module.exports = router;
