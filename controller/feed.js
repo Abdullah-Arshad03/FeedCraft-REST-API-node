@@ -196,7 +196,6 @@ exports.deletePost = (req, res, next) => {
       Post.findByIdAndDelete(postId)
       .then((result) => {
                 return User.findById(req.userId)
-      
       }).then((user)=>{
         user.posts.pull(postId)
         return user.save()
