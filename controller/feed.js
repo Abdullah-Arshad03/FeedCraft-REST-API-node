@@ -18,6 +18,7 @@ exports.getPosts = (req, res, next) => {
       totalItems = count;
       // here below we cannot not only find the items but also perform pagination
       return Post.find()
+         .populate('creator')
         .skip((currentPage - 1) * perPage)
         .limit(perPage);
     })
