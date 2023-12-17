@@ -6,7 +6,7 @@ const isAuth = require('../middleware/is-auth')
 const router = express.Router()
 const feedController = require('../controller/feed')
 
-router.get('/posts',isAuth ,  feedController.getPosts)
+router.get('/posts', isAuth ,  feedController.getPosts)
 
 router.post('/post',[
     check('title','title must contain atleast 5 characters!').trim().isLength({min : 5}),
@@ -22,6 +22,10 @@ router.put('/post/:postId', [
 ] ,isAuth , feedController.editPost)
 
 router.delete('/post/:postId',isAuth, feedController.deletePost)
+
+router.get('/status', isAuth ,feedController.getStatus)
+
+router.patch('/status', isAuth , feedController.updateUserStatus)
 
 
 module.exports = router

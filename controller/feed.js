@@ -68,12 +68,12 @@ exports.createPost = (req, res, next) => {
     title: title,
     content: content,
     imageUrl: imageUrl,
-    creator: req.userId,
+    creator: req.user,
   });
   post
     .save()
     .then((result) => {
-      return User.findById(req.userId);
+      return User.findById(req.user);
     })
     .then((user) => {
       creator = user;
@@ -145,7 +145,7 @@ exports.editPost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      if (post.creator.toString() !== req.userId) {
+      if (post.creator.toString() !== req.user) {
         const error = new Error("Not Authorized!");
         error.statusCode = 403; // code for the authorization
         throw error;
@@ -186,7 +186,7 @@ exports.deletePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
-      if (post.creator.toString() !== req.userId) {
+      if (post.creator.toString() !== req.user) {
         const error = new Error("Not Authorized!");
         error.statusCode = 403; // code for the authorization
         throw error;
@@ -195,7 +195,7 @@ exports.deletePost = (req, res, next) => {
       clearImage(post.imageUrl);
       Post.findByIdAndDelete(postId)
       .then((result) => {
-                return User.findById(req.userId)
+                return User.findById(req.user)
       }).then((user)=>{
         user.posts.pull(postId)
         return user.save()
@@ -208,3 +208,50 @@ exports.deletePost = (req, res, next) => {
       console.log(err);
     });
 };
+
+exports.getStatus = (req,res,next) =>{
+  console.log('this is the userId : ',req.user)
+  
+     User.findById(req.user).then((user)=>{
+      if(!user){
+        const error = new Error('User not found!')
+        error.statusCode = 403
+        throw error
+      }
+      res.status(200).json({
+        message : 'Heres your status !',
+        status : user.status
+      })
+     }).catch(err =>{
+      if(!err.statusCode){
+          err.statusCode = 500
+      }
+      next(err)
+     })
+}
+
+exports.updateUserStatus = (req,res,next)=> {
+  const userStatus = req.body.status 
+
+
+  User.findById(req.user).then((user)=>{
+    if(!user){
+      const error = new Error('User not found!')
+      error.statusCode = 404
+      throw error
+    }
+    user.status = userStatus
+    return user.save()
+  }).then((result)=>{
+    res.status(200).json({
+      message :'your status is updated!',
+      status : userStatus
+    })
+  }).catch(err =>{
+    if(!err.statusCode){
+      err.statusCode = 500
+    }
+    next(err)
+  })
+
+}
