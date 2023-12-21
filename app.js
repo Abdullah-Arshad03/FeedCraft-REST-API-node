@@ -29,7 +29,6 @@ const fileFilter = (req, file , cb)=>{
     }
 }
 
-
 app.use(bodyParser.json())
 app.use(multer({storage :fileStorage   , fileFilter: fileFilter }).single('image'))
 app.use ('/images', express.static(path.join(__dirname , 'images')))
@@ -48,6 +47,7 @@ app.use('/feed', feedRoutes)
 
 app.use((error,req,res,next)=>{
     console.log(error)
+    console.log('hello')
     const status = error.statusCode || 500
     const message = error.message // this is default term in the error , the string we pass in the Error('')is treated as the error.message by default
     const messages = error.messages
