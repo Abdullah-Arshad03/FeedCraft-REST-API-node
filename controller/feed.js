@@ -12,16 +12,15 @@ exports.getPosts = (req, res, next) => {
 
   let totalItems;
 
-  Post.find()
-    .countDocuments()
-    .then((count) => {
-      totalItems = count;
-      // here below we cannot not only find the items but also perform pagination
-      return Post.find()
-        .skip((currentPage - 1) * perPage)
-        .limit(perPage);
-    })
-    .then((posts) => {
+  // .countDocuments()
+  // .then((count) => {
+  //   totalItems = count;
+  //   // here below we cannot not only find the items but also perform pagination
+  //   return Post.find()
+  //     .skip((currentPage - 1) * perPage)
+  //     .limit(perPage);
+  // })
+  Post.find().then((posts) => {
       if (!posts) {
         const error = new Error("Posts arent fetched from the DB");
         error.statusCode = 404;
@@ -85,6 +84,7 @@ exports.createPost = (req, res, next) => {
         message: "Post created Successfully",
         post: post,
         creator: { _id: creator._id, name: creator.name },
+        status : 201
       });
     })
     .catch((err) => {

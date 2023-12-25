@@ -38,6 +38,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next()
 
 });
 
@@ -47,7 +48,7 @@ app.use('/feed', feedRoutes)
 
 app.use((error,req,res,next)=>{
     console.log(error)
-    console.log('hello')
+    // console.log('hello')
     const status = error.statusCode || 500
     const message = error.message // this is default term in the error , the string we pass in the Error('')is treated as the error.message by default
     const messages = error.messages
