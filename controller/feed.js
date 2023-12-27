@@ -5,40 +5,35 @@ const path = require("path");
 const Post = require("../models/post");
 const User = require("../models/user");
 
-exports.getPosts = async(req, res, next) => {
+exports.getPosts = async (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
 
- 
+  try{
+  let totalItems = await Post.find().countDocuments();
+  const posts = await Post.find()
+    .skip((currentPage - 1) * perPage)
+    .limit(perPage);
 
-  let totalItems = await Post.find().countDocuments()
-
-    // here below we cannot not only find the items but also perform pagination
-    const posts = await  Post.find().skip((currentPage - 1) * perPage).limit(perPage);
- 
-  .then((posts) => {
-      if (!posts) {
-        const error = new Error("Posts arent fetched from the DB");
-        error.statusCode = 404;
-        throw error;
-      }
-      res.status(200).json({
-        message: " all posts fetched successfully !!",
-        posts: posts,
-        totalItems: totalItems,
-      });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
+  if (!posts) {
+    const error = new Error("Posts arent fetched from the DB");
+    error.statusCode = 404;
+    throw error;
+  }
+  res.status(200).json({
+    message: " all posts fetched successfully !!",
+    posts: posts,
+    totalItems: totalItems,
+  });
+}
+catch(err){
+  if (!err.statusCode) {
         err.statusCode = 500;
       }
       next(err);
-    });
+}
 };
-
-// now making the post request
-
 exports.createPost = (req, res, next) => {
   // lets assume this will the post created in the Database.
   const errors = validationResult(req);
@@ -81,7 +76,7 @@ exports.createPost = (req, res, next) => {
         message: "Post created Successfully",
         post: post,
         creator: { _id: creator._id, name: creator.name },
-        status : 201
+        status: 201,
       });
     })
     .catch((err) => {
@@ -191,64 +186,68 @@ exports.deletePost = (req, res, next) => {
 
       clearImage(post.imageUrl);
       Post.findByIdAndDelete(postId)
-      .then((result) => {
-                return User.findById(req.user)
-      }).then((user)=>{
-        user.posts.pull(postId)
-        return user.save()
-        
-      }).then((result)=>{
-        res.status(200).json({ message: "post is deleted! successfully !" });
-      });
+        .then((result) => {
+          return User.findById(req.user);
+        })
+        .then((user) => {
+          user.posts.pull(postId);
+          return user.save();
+        })
+        .then((result) => {
+          res.status(200).json({ message: "post is deleted! successfully !" });
+        });
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
-exports.getStatus = (req,res,next) =>{
-  console.log('this is the userId : ',req.user)
-  
-     User.findById(req.user).then((user)=>{
-      if(!user){
-        const error = new Error('User not found!')
-        error.statusCode = 403
-        throw error
+exports.getStatus = (req, res, next) => {
+  console.log("this is the userId : ", req.user);
+
+  User.findById(req.user)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("User not found!");
+        error.statusCode = 403;
+        throw error;
       }
       res.status(200).json({
-        message : 'Heres your status !',
-        status : user.status
-      })
-     }).catch(err =>{
-      if(!err.statusCode){
-          err.statusCode = 500
-      }
-      next(err)
-     })
-}
-
-exports.updateUserStatus = (req,res,next)=> {
-  const userStatus = req.body.status 
-
-
-  User.findById(req.user).then((user)=>{
-    if(!user){
-      const error = new Error('User not found!')
-      error.statusCode = 404
-      throw error
-    }
-    user.status = userStatus
-    return user.save()
-  }).then((result)=>{
-    res.status(200).json({
-      message :'your status is updated!',
-      status : userStatus
+        message: "Heres your status !",
+        status: user.status,
+      });
     })
-  }).catch(err =>{
-    if(!err.statusCode){
-      err.statusCode = 500
-    }
-    next(err)
-  })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
 
-}
+exports.updateUserStatus = (req, res, next) => {
+  const userStatus = req.body.status;
+
+  User.findById(req.user)
+    .then((user) => {
+      if (!user) {
+        const error = new Error("User not found!");
+        error.statusCode = 404;
+        throw error;
+      }
+      user.status = userStatus;
+      return user.save();
+    })
+    .then((result) => {
+      res.status(200).json({
+        message: "your status is updated!",
+        status: userStatus,
+      });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
