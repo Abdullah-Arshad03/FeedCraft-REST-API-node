@@ -10,36 +10,36 @@ exports.getPosts = async (req, res, next) => {
   const perPage = 2;
   // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
 
-  try{
-  let totalItems = await Post.find().countDocuments();
-  const posts = await Post.find()
-    .skip((currentPage - 1) * perPage)
-    .limit(perPage);
+  try {
+    let totalItems = await Post.find().countDocuments();
+    const posts = await Post.find()
+      .skip((currentPage - 1) * perPage)
+      .limit(perPage);
 
-  if (!posts) {
-    const error = new Error("Posts arent fetched from the DB");
-    error.statusCode = 404;
-    throw error;
+    if (!posts) {
+      const error = new Error("Posts arent fetched from the DB");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({
+      message: " all posts fetched successfully !!",
+      posts: posts,
+      totalItems: totalItems,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
   }
-  res.status(200).json({
-    message: " all posts fetched successfully !!",
-    posts: posts,
-    totalItems: totalItems,
-  });
-}
-catch(err){
-  if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-}
 };
-exports.createPost = (req, res, next) => {
+
+exports.createPost = async (req, res, next) => {
   // lets assume this will the post created in the Database.
   const errors = validationResult(req);
   const title = req.body.title;
   const content = req.body.content;
-  let creator;
+
 
   if (!errors.isEmpty()) {
     const error = new Error(errors.array()[0].msg);
@@ -61,30 +61,28 @@ exports.createPost = (req, res, next) => {
     imageUrl: imageUrl,
     creator: req.user,
   });
-  post
-    .save()
-    .then((result) => {
-      return User.findById(req.user);
-    })
-    .then((user) => {
-      creator = user;
-      user.posts.push(post);
-      return user.save();
-    })
-    .then((result) => {
-      res.status(201).json({
-        message: "Post created Successfully",
-        post: post,
-        creator: { _id: creator._id, name: creator.name },
-        status: 201,
-      });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+
+  try {
+   const posts =  await post.save();
+
+    const user = User.findById(req.user);
+   let creator = user; 
+    user.posts.push(post);
+    await user.save();
+
+    res.status(201).json({
+      message: "Post created Successfully",
+      post: post,
+      creator: { _id: creator._id, name: creator.name },
+      status: 201,
     });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+
 };
 
 exports.getPost = (req, res, next) => {
