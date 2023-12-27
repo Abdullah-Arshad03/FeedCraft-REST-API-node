@@ -5,22 +5,19 @@ const path = require("path");
 const Post = require("../models/post");
 const User = require("../models/user");
 
-exports.getPosts = (req, res, next) => {
+exports.getPosts = async(req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
 
-  let totalItems;
+ 
 
-  Post.find()
-  .countDocuments()
-  .then((count) => {
-    totalItems = count;
+  let totalItems = await Post.find().countDocuments()
+
     // here below we cannot not only find the items but also perform pagination
-    return Post.find()
-      .skip((currentPage - 1) * perPage)
-      .limit(perPage);
-  }).then((posts) => {
+    const posts = await  Post.find().skip((currentPage - 1) * perPage).limit(perPage);
+ 
+  .then((posts) => {
       if (!posts) {
         const error = new Error("Posts arent fetched from the DB");
         error.statusCode = 404;
