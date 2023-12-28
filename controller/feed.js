@@ -51,7 +51,7 @@ exports.createPost = async (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
+  jkljkljkjk
   const imgObj = req.file;
   console.log(imgObj);
 
