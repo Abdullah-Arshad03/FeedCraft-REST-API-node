@@ -9,8 +9,6 @@ exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
-
-
  
   let totalItems;
 
@@ -172,6 +170,7 @@ const clearImage = (filepath) => {
 
 exports.deletePost = (req, res, next) => {
   const postId = req.params.postId;
+  
   Post.findById(postId)
     .then((post) => {
       // here we check the logged in user.
@@ -226,8 +225,6 @@ exports.getStatus = (req,res,next) =>{
 
 exports.updateUserStatus = (req,res,next)=> {
   const userStatus = req.body.status 
-
-
   User.findById(req.user).then((user)=>{
     if(!user){
       const error = new Error('User not found!')

@@ -28,4 +28,6 @@ router.get('/status', isAuth ,feedController.getStatus)
 router.patch('/status', isAuth , feedController.updateUserStatus)
 
 
+
+
 module.exports = router
