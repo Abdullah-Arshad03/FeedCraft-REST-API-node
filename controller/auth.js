@@ -71,7 +71,7 @@ exports.signin = (req, res, next) => {
       const token = jwt.sign(
         { email: loadedUser.email, userId: loadedUser._id.toString() },
         "somesupersecret",
-        { expiresIn: "1h" }
+        { expiresIn: "1m" }
       );
 
       res.status(200).json({
@@ -87,3 +87,35 @@ exports.signin = (req, res, next) => {
       next(err);
     });
 };
+
+
+exports.resetPassword = async ( req, res, next)=>{
+  const email = req.body.email 
+  const errors = validationResult(req)
+
+  try{
+  const user = await User.findOne({email : email})
+
+  if(!user){
+    const error = new Error('Please Enter Correct Email')
+    error.statusCode = 422
+    throw error
+  }
+
+  if(!errors.isEmpty()){
+    const error = new Error(errors.array()[0].msg)
+    error.statusCode = 422
+    throw error
+  }
+  res.json({
+    message :' the endpoint is totally working fine ',
+    email : email
+  })
+}
+catch(error){
+  if(!error.statusCode){
+    error.statusCode = 500
+  }
+  next(error)
+}
+}

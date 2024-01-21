@@ -17,7 +17,9 @@ router.post(
             if (userDoc) {
               return Promise.reject("Email exists already in the database!");
             }
+            return true
           })
+          
       }),
     check("name", "Name must not be empty ").trim().notEmpty(),
     check("password", "password must contain atleast 5 characters")
@@ -28,6 +30,8 @@ router.post(
 );
 
 router.post('/signin', authController.signin)
+
+router.post('/reset' , authController.resetPassword )
 
 
 

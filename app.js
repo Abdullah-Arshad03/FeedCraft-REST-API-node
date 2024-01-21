@@ -8,14 +8,14 @@ const app  = express()
 const feedRoutes = require('./routes/feed')
 const authRoutes = require('./routes/auth')
 const bodyParser = require('body-parser')
-
+let random = new Date().getTime().toString()
 
 const fileStorage = multer.diskStorage({
     destination : (req, file , cb)=>{
         cb(null , './images')
     },
     filename : (req,file,cb)=>{
-        cb(null , file.originalname )
+        cb(null , random + file.originalname )
     }
 })
 
@@ -32,7 +32,6 @@ const fileFilter = (req, file , cb)=>{
 app.use(bodyParser.json())
 app.use(multer({storage :fileStorage   , fileFilter: fileFilter }).single('image'))
 app.use ('/images', express.static(path.join(__dirname , 'images')))
-
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
