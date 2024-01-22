@@ -7,6 +7,8 @@ const multer = require('multer')
 const app  = express()
 const feedRoutes = require('./routes/feed')
 const authRoutes = require('./routes/auth')
+const profileRoutes = require("./routes/profile")
+
 const bodyParser = require('body-parser')
 let random = new Date().getTime().toString()
 
@@ -44,6 +46,8 @@ app.use((req, res, next) => {
 app.use('/auth',authRoutes)
 //GET /feed/posts
 app.use('/feed', feedRoutes)
+
+app.use('/profile', profileRoutes)
 
 app.use((error,req,res,next)=>{
     console.log(error)

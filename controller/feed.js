@@ -12,7 +12,7 @@ exports.getPosts = (req, res, next) => {
  
   let totalItems;
 
-  Post.find().then((posts) => {
+  Post.find().populate('creator').then((posts) => {
       if (!posts) {
         const error = new Error("Posts arent fetched from the DB");
         error.statusCode = 404;

@@ -71,7 +71,7 @@ exports.signin = (req, res, next) => {
       const token = jwt.sign(
         { email: loadedUser.email, userId: loadedUser._id.toString() },
         "somesupersecret",
-        { expiresIn: "1m" }
+        { expiresIn: "1h" }
       );
 
       res.status(200).json({
