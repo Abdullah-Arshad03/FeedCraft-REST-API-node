@@ -62,7 +62,7 @@ app.use((error,req,res,next)=>{
     })
 })
 
-mongoose.connect('mongodb://127.0.0.1:27017/blogDb').then((connected)=>{
+mongoose.connect('mongodb+srv://abdullahharshad003:Rk7zrSAdEwaXkYRE@cluster0.ivoc2ea.mongodb.net/feedcraft').then((connected)=>{
     console.log('Mongoose Connected!')
     
     const server = app.listen(8080)
