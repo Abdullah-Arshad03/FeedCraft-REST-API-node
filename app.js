@@ -74,6 +74,10 @@ mongoose.connect('mongodb+srv://abdullahharshad003:Rk7zrSAdEwaXkYRE@cluster0.ivo
             credentials: true,
           }
     })
+
+    io.on('connection' , socket =>{
+        console.log('Client Connected!')
+    })
 }).catch((err)=>{
     console.log(err)
 })
