@@ -77,6 +77,7 @@ mongoose.connect('mongodb+srv://abdullahharshad003:Rk7zrSAdEwaXkYRE@cluster0.ivo
 
     io.on('connection' , socket =>{
         console.log('Client Connected!')
+        console.log('the websockets setup is made ate the backend  ')
     })
 }).catch((err)=>{
     console.log(err)
