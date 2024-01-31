@@ -11,7 +11,6 @@ const profileRoutes = require("./routes/profile")
 
 const bodyParser = require('body-parser')
 let random = new Date().getTime().toString()
-app.use(express.static(path.resolve(__dirname, "build")));
 
 const fileStorage = multer.diskStorage({
     destination : (req, file , cb)=>{
@@ -31,6 +30,8 @@ const fileFilter = (req, file , cb)=>{
         console.log('else block')
     }
 }
+app.use(express.static(path.resolve(__dirname, "build")));
+
 
 app.use(bodyParser.json())
 app.use(multer({storage :fileStorage   , fileFilter: fileFilter }).single('image'))
