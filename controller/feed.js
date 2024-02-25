@@ -8,7 +8,7 @@ exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   // same value as given in the frontend, we can setup this in such way that it goes from the backend and then we do all but no worries right now hardcoding it putting the same value of 2 and we want on the frontend
- 
+
   let totalItems;
 
   Post.find().populate('creator').then((posts) => {
